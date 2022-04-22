@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #include "waveshare.h"
-
+char buffer_texte[1000];
 int main(void)
 {
         if (wsInit() == 0) {
@@ -9,13 +9,28 @@ int main(void)
         } else {
                 printf("Awww\n");
         }
+        FILE *fp;
+        char c;
+        int n = 0;
+        fp = fopen("book_to_read.txt","r");
+        if(fp == NULL) {
+        perror("Error in opening file");
+        return(-1);
+      } do {
+      c = fgetc(fp);
+      if( feof(fp) ) {
+         break ;
+      }
+      printf("%c", c);
+      for(int a = 0; a < 1000; a++){
+      buffer_texte[a] = c;
+      }
+      } while(1);
 
+     fclose(fp);
         wsClear();
-        texte = open("book_to_read.txt")
-        read_texte = texte.read
-        texte.close()
         for(int i = 0; i < 22; i++) {
-                wsDisplayText(0,i*28, read_texte, 100);
+            wsDisplayText(0,i*28, buffer_texte, 100);
         }
         wsRefresh();
 
